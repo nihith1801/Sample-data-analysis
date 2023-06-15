@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 df = pd.read_excel('Worksheet in Hood Slam Bumper Vision System_1.xlsx')
 # Create a bar chart
 print(df.dtypes)
@@ -20,4 +21,10 @@ df_daily = df[df['Profit'] < df['Ad Expenditure']]
 df_daily.to_excel('Profitless.xlsx', index=False)
 df_profitlevel = df[df['Unnamed: 13'] == 'OP']
 df_profitlevel.to_excel('Moderateprofit.xlsx', index=False)
+features = df[['Total Revenue']]
+kmeans = KMeans(n_clusters=3, n_init='auto')  # Specifying the desired number of clusters
+kmeans.fit(features)
+cluster_labels = kmeans.labels_
+df['Cluster'] = cluster_labels
+df.to_excel('new_clustered_data.xlsx', index=False)
 
